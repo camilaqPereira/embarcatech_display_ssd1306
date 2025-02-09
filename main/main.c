@@ -89,6 +89,8 @@ int main(){
             /* Display number in WS2812*/
             if(char_input >= '0' && char_input <= '9'){
                 matrix_display_number(pio, state_machine, (uint8_t) char_input - '0');
+            }else{
+                matrix_turn_all(pio, state_machine, 0, 0, 0);
             }
         }
     }
@@ -111,6 +113,7 @@ void button_irq_handler(uint gpio, uint32_t events){
         
         /* Inform update: serial monitor and SSD1306*/
         printf("Button A pressed. Switching green LED state!\n");
+        ssd1306_rect(&display_ssd, 3, 3, 122, 58, true, false);                
         ssd1306_draw_string(&display_ssd, (led_green_state) ? "Green: on " : "Green: off", 40, 50);
         ssd1306_send_data(&display_ssd);       
     
@@ -124,6 +127,7 @@ void button_irq_handler(uint gpio, uint32_t events){
         
         /* Inform update: serial monitor and SSD1306*/
         printf("Button B pressed. Switching blue LED state!\n"); 
+        ssd1306_rect(&display_ssd, 3, 3, 122, 58, true, false);                
         ssd1306_draw_string(&display_ssd, (led_blue_state) ? "Blue:  on " : "Blue:  off", 40, 40);
         ssd1306_send_data(&display_ssd);   
 
